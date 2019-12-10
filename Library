@@ -1,0 +1,72 @@
+import java.util.Scanner;  
+
+public class Library
+    {        
+        private String location;
+        private String openingHours;
+        private Book book;
+        private Map<Book,Integer> bookList = new HashMap<Book,Integer>();
+
+        public Library(String location, String openingHours) {
+            this.location = location;
+            this.openingHours = openingHours;
+        }
+
+        public void addBook(Book book) {        
+            //If the book doesn't exist add it: otherwise increase the quantity of the book
+            if (bookList.containsKey(book)) 
+                bookList.put(book, bookList.get(book) + 1);
+            else
+                bookList.put(book, 1);
+        }
+
+        public String printOpeningHours() {
+            return openingHours;
+        }
+
+        public String printAddress() {
+            return location;
+        }
+
+        public void borrowBook(Book book) {
+            bookList.put(book, bookList.get(book) - 1);            
+        }
+
+        public void returnBook() {
+            bookList.put(book, bookList.get(book) + 1);
+        }
+
+        public String getBooksString() {
+            if (bookList.isEmpty()) {
+                return "";
+            }
+
+            StringBuilder available = new StringBuilder();
+
+            for (Book book: bookQuantities.keySet()) {
+                available.append(" " + book.toString());
+            }
+
+            return available.substring(1);
+        }
+        public boolean hasAvailability() {
+            for (int quantity: bookQuantities.values()) {
+                if (quantity > 0) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        public static void main(String[] args) {
+            Scanner input = new Scanner(System.in);
+            Library l1 = new Library("111 Your Street", "9am");
+            l1.addBook(new Book("Test", "Author", "Test summary"));
+            l1.addBook(new Book("Test2", "Author2", "Test summary2"));
+            l1.addBook(new Book("Test3", "Author3", "Test summary3"));
+            System.out.println(l1.printAvailableBooks());
+            System.out.print("Choose book: ");
+            Book book = (Book) input.next();
+            borrowBook(book);
+        }
+    }
